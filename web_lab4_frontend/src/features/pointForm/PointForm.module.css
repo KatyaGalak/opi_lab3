@@ -1,0 +1,169 @@
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.formTitle {
+  color: #75abb5;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.label {
+  font-weight: bold;
+  color: #75abb5;
+  font-size: 1.1rem;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.selectButton, .submitButton, .resetButton {
+  border-radius: 15px !important; 
+  transition-property: background-color, border-color, color, box-shadow !important;
+  transition-duration: 0.2s !important;
+  transition-timing-function: ease-in-out !important;
+}
+
+.selectButton {
+  min-width: 40px !important;
+  padding: 8px !important;
+  transition: all 0.2s ease;
+}
+
+.submitButton, .resetButton {
+  padding: 12px 24px !important;
+  font-weight: bold !important;
+}
+
+.submitButton {
+  background-color: #75abb5 !important;
+}
+
+.submitButton:hover {
+  background-color: #58a3b1 !important;
+}
+
+.resetButton {
+  background-color: #999 !important;
+}
+
+.actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.error, .formError {
+  color: rgb(246, 77, 77);
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.formError {
+  text-align: center;
+  font-weight: bold;
+}
+
+.numberInput {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  color: #312e2e;
+  box-sizing: border-box;
+}
+
+.numberInput:focus {
+  outline: none;
+  border-color: #75abb5;
+  box-shadow: 0 0 0 2px rgba(117, 171, 181, 0.3);
+}
+
+.numberInput::-webkit-inner-spin-button,
+.numberInput::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+.numberInput[type="number"] {
+  appearance: textfield;
+}
+
+.spinnerContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: transparent;
+  border: none;
+  gap: 0;
+}
+
+.belleSpinnerInput {
+  flex: 1;
+  margin: 0 !important;
+  color: #312e2e !important; 
+  opacity: 1 !important;
+  -webkit-text-fill-color: #312e2e !important;
+  
+  border: 1px solid #ccc !important;
+  border-left: none !important;
+  border-right: none !important;
+  
+  text-align: center !important;
+  height: 40px !important;
+  background-color: white !important;
+}
+
+.spinnerButtonMinus,
+.spinnerButtonPlus {
+  min-width: 50px !important;
+  height: 40px !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  font-size: 20px !important;
+  font-weight: bold !important;
+  color: white !important;
+}
+
+.spinnerButtonMinus {
+  background-color: #eb5050 !important;
+  border: 1px solid #eb5050 !important;
+}
+
+.spinnerButtonMinus:hover {
+  background-color: #cc0000 !important;
+}
+
+.spinnerButtonPlus {
+  background-color: #6bef6b !important;
+  border: 1px solid #6bef6b !important;
+}
+
+.spinnerButtonPlus:hover {
+  background-color: #00cc00 !important;
+}

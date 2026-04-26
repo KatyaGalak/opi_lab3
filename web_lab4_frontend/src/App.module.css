@@ -1,0 +1,61 @@
+.appContainer {
+  min-height: 100vh;
+  background-color: #d9d9d9;
+  color: #312e2e;
+  font-family: serif;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #d9d9d9;
+  font-family: serif;
+}
+
+.loadingText {
+  font-size: 1.5rem;
+  color: #75abb5;
+}
+
+@media (max-width: 826px) {
+  .appContainer {
+    padding: 10px;
+  }
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #acc5eb;
+  gap: 24px;
+}
+
+.loadingText {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #575a5a;
+  margin-top: 8px;
+}
+
+.persistLoading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #ffffff;
+  gap: 30px;
+}
+
+.persistLoadingLogo {
+  height: 140px;
+  width: auto;
+  object-fit: contain;
+}

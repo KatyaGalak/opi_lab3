@@ -1,0 +1,180 @@
+.tableContainer {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  overflow: hidden;
+}
+
+.tableTitle {
+  color: #75abb5;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+.responsiveTable {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  font-family: serif;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 600px;
+  
+}
+
+.table th {
+  background-color: #75abb5;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.table th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.table th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+.table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  background-color: white;
+}
+
+.loading,
+.error,
+.empty {
+  text-align: center;
+  padding: 30px;
+  font-size: 1.2rem;
+  color: #312e2e;
+}
+
+.error {
+  color: red;
+}
+
+.mobileView {
+  display: none;
+}
+
+@media (max-width: 826px) {
+  .table th,
+  .table td {
+    padding: 8px 6px;
+    font-size: 0.9rem;
+  }
+
+  .tableContainer {
+    padding: 15px;
+  }
+
+  .tableTitle {
+    font-size: 1.5rem;
+  }
+}
+
+/* @media (max-width: 826px) {
+  .responsiveTable {
+    display: none;
+  }
+
+  .mobileView {
+    display: block;
+  }
+
+  .mobileRow {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+  }
+} */
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.clearButton {
+  border-radius: 15px !important;
+  background-color: #e95454 !important;
+  color: white !important;
+  border: 1px solid #d44343 !important;
+  padding: 8px 20px !important;
+  font-weight: bold !important;
+  transition: all 0.2s ease-in-out !important;
+  cursor: pointer;
+}
+
+.clearButton:hover {
+  background-color: #d44343 !important;
+  box-shadow: 0 0 8px rgba(233, 84, 84, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+.clearButton:active {
+  transform: translateY(0);
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modalTitle {
+  color: #e95454;
+  margin-top: 0;
+  font-family: serif;
+}
+
+.modalActions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.modalActions button {
+  border-radius: 15px !important;
+}

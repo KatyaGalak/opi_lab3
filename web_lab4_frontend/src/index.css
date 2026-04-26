@@ -1,0 +1,122 @@
+body {
+  font-family: serif;
+  margin: 0;
+  padding: 0;
+  background-color: #d9d9d9;
+  color: #312e2e;
+}
+
+:root {
+  --table-header-color: #75abb5;
+}
+
+.header-container {
+  width: 100%;
+  background-color: #d9d9d9;
+  border-radius: 10px;
+  border-collapse: separate;
+  border-spacing: 1%;
+  font-weight: bold;
+  font-size: 18px;
+  color: #312e2e;
+  margin-bottom: 2%;
+}
+
+.header-item {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  text-align: center;
+  padding: 1.5% 2%;
+  width: 33.33%;
+}
+
+.my-button {
+  background-color: #75abb5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 24px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.my-button:hover {
+  background-color: #58a3b1;
+}
+
+.danger-button {
+  background-color: #d9534f !important;
+}
+
+.danger-button:hover {
+  background-color: #c9302c !important;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 826px) {
+  body {
+    font-size: 14px;
+  }
+
+  .header-container {
+    font-size: 14px;
+    border-spacing: 0.5%;
+  }
+
+  .header-item {
+    padding: 1% 1.5%;
+  }
+
+  .my-button {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 827px) and (max-width: 1173px) {
+  body {
+    font-size: 16px;
+  }
+
+  .header-container {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1174px) {
+  body {
+    font-size: 18px;
+  }
+}
+
+
+.form-submit-buttons {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+  padding-left: 5%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 48px 0 32px;
+}
+
+.form-action {
+  display: inline-block;
+  margin: 0;
+}

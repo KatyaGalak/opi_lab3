@@ -1,0 +1,212 @@
+diff --git a/node_modules/belle/lib/components/Spinner/index.js b/node_modules/belle/lib/components/Spinner/index.js
+index f0254ea..9bb1a97 100644
+--- a/node_modules/belle/lib/components/Spinner/index.js
++++ b/node_modules/belle/lib/components/Spinner/index.js
+@@ -12,6 +12,9 @@ var _react = require('react');
+ 
+ var _react2 = _interopRequireDefault(_react);
+ 
++var _propTypes = require('prop-types');
++var _propTypes2 = _interopRequireDefault(_propTypes);
++
+ var _styles = require('./styles');
+ 
+ var _styles2 = _interopRequireDefault(_styles);
+@@ -87,8 +90,8 @@ var Spinner = function (_Component) {
+ 
+ Spinner.displayName = 'Spinner';
+ Spinner.propTypes = {
+-  characterProps: _react.PropTypes.object,
+-  characterStyle: _react.PropTypes.object,
+-  style: _react.PropTypes.object
++  characterProps: _propTypes2.default.object, // Было _react.PropTypes
++  characterStyle: _propTypes2.default.object, // Было _react.PropTypes
++  style: _propTypes2.default.object
+ };
+ exports.default = Spinner;
+\ No newline at end of file
+diff --git a/node_modules/belle/lib/components/Spinner/styles.js b/node_modules/belle/lib/components/Spinner/styles.js
+index d8e8258..c1f08b7 100644
+--- a/node_modules/belle/lib/components/Spinner/styles.js
++++ b/node_modules/belle/lib/components/Spinner/styles.js
+@@ -6,12 +6,12 @@ Object.defineProperty(exports, "__esModule", {
+ var spinnerStyle = {
+   style: {
+     display: 'inline-block',
+-    fontSize: 15,
++    fontSize: 20,
+     textAlign: 'center'
+   },
+ 
+   characterStyle: {
+-    color: '#666',
++    color: '#75abb5',
+     display: 'inline-block',
+     WebkitAnimation: 'belle-spinner-pulse 2s infinite ease-in-out',
+     OAnimation: 'belle-spinner-pulse 2s infinite ease-in-out',
+diff --git a/node_modules/belle/lib/index.js b/node_modules/belle/lib/index.js
+index c5f5b70..079c778 100644
+--- a/node_modules/belle/lib/index.js
++++ b/node_modules/belle/lib/index.js
+@@ -1,5 +1,12 @@
+ 'use strict';
+ 
++var React = require('react');
++var PropTypes = require('prop-types');
++
++if (!React.PropTypes) {
++    React.PropTypes = PropTypes;
++}
++
+ var _Button = require('./components/Button');
+ 
+ var _Button2 = _interopRequireDefault(_Button);
+diff --git a/node_modules/belle/lib/utils/inject-style.js b/node_modules/belle/lib/utils/inject-style.js
+index 78cfd4d..94e3957 100644
+--- a/node_modules/belle/lib/utils/inject-style.js
++++ b/node_modules/belle/lib/utils/inject-style.js
+@@ -1,4 +1,4 @@
+-'use strict';
++"use strict";
+ 
+ Object.defineProperty(exports, "__esModule", {
+   value: true
+@@ -13,26 +13,31 @@ exports.default = function (styleId, style, pseudoClass, disabled) {
+   updateStyling();
+ };
+ 
+-var _helpers = require('../utils/helpers');
+-
+-var _CSSPropertyOperations = require('react-dom/lib/CSSPropertyOperations');
+-
+-var _CSSPropertyOperations2 = _interopRequireDefault(_CSSPropertyOperations);
++function createMarkupForStyles(style) {
++  if (!style || typeof style !== 'object') return '';
++  return Object.keys(style)
++    .map(function (prop) {
++      var value = style[prop];
++      if (value === null || value === undefined || value === false) return '';
++      var kebabProp = prop.replace(/([A-Z])/g, '-$1').toLowerCase();
++      var finalValue = typeof value === 'number' && !['zIndex', 'opacity', 'fontWeight'].includes(prop) 
++        ? value + 'px' 
++        : value;
++      return kebabProp + ': ' + finalValue + ';';
++    })
++    .join('');
++}
+ 
+ var _exenv = require('exenv');
+-
+ var _animations = require('../style/animations');
+-
+ var _animations2 = _interopRequireDefault(_animations);
++var _helpers = require('./helpers');
+ 
+ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+ 
+ var styleElement = void 0;
+ var styleStorage = {};
+ 
+-/**
+- * Injects the provided style into the styleStore.
+- */
+ function injectStyleTag() {
+   if (!styleElement && _exenv.canUseDOM) {
+     styleElement = document.createElement('style');
+@@ -41,9 +46,6 @@ function injectStyleTag() {
+   }
+ }
+ 
+-/**
+- * Injects the provided style into the styleStore.
+- */
+ function updateStore(styleId, style, pseudoClass, disabled) {
+   styleStorage[styleId] = styleStorage[styleId] || {};
+   if (disabled) {
+@@ -55,18 +57,13 @@ function updateStore(styleId, style, pseudoClass, disabled) {
+   }
+ }
+ 
+-/**
+- * Constructs all the stored styles & injects them to the DOM.
+- */
+ function createMarkupOnPseudoClass(pseudoClasses, id, disabled) {
+   return (0, _helpers.mapObject)(pseudoClasses, function (style, pseudoClass) {
+     if (style && Object.keys(style).length > 0) {
+-      var styleString = _CSSPropertyOperations2.default.createMarkupForStyles(style);
++      var styleString = createMarkupForStyles(style);
+       var styleWithImportant = styleString.replace(/;/g, ' !important;');
+-
+       return disabled ? '.' + id + '[disabled]:' + pseudoClass + ' {' + styleWithImportant + '}' : '.' + id + ':' + pseudoClass + ' {' + styleWithImportant + '}';
+     }
+-
+     return undefined;
+   });
+ }
+@@ -74,15 +71,12 @@ function createMarkupOnPseudoClass(pseudoClasses, id, disabled) {
+ function updateStyling() {
+   var styles = (0, _helpers.mapObject)(styleStorage, function (storageEntry, id) {
+     var pseudoClassesArray = [];
+-
+     if (storageEntry.pseudoClasses) {
+       pseudoClassesArray.push(createMarkupOnPseudoClass(storageEntry.pseudoClasses, id, false));
+     }
+-
+     if (storageEntry.disabledPseudoClasses) {
+       pseudoClassesArray.push(createMarkupOnPseudoClass(storageEntry.disabledPseudoClasses, id, true));
+     }
+-
+     return pseudoClassesArray;
+   });
+   if (styleElement) {
+@@ -90,23 +84,6 @@ function updateStyling() {
+   }
+ }
+ 
+-/**
+- * Injects a style tag and adds multiple passed styles.
+- *
+- * By using this function someone can make sure the DOM is updated only once.
+- *
+- * @example
+- * ```
+- * const styles = [
+- *   {
+- *     id: 'style-0.0.2',
+- *     style: { color: '#F00' },
+- *     pseudoClass: 'hover'
+- *   }
+- * ];
+- * injectStyles(styles);
+- * ```
+- */
+ function injectStyles(styles) {
+   injectStyleTag();
+   styles.forEach(function (style) {
+@@ -115,24 +92,14 @@ function injectStyles(styles) {
+   updateStyling();
+ }
+ 
+-/**
+- * Removes all pseudoClass styles based on the provided styleId.
+- */
+ function removeStyle(styleId) {
+   delete styleStorage[styleId];
+   updateStyling();
+ }
+ 
+-/**
+- * Removes all pseudoClass styles based on all provided styleIds.
+- */
+ function removeAllStyles(styleIds) {
+   styleIds.forEach(function (styleId) {
+     delete styleStorage[styleId];
+   });
+   updateStyling();
+ }
+\ No newline at end of file
+-
+-/**
+- * Injects a style tag and adds the passed style for the provided pseudoClass.
+- */
+\ No newline at end of file

@@ -1,0 +1,92 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.headerContainer {
+  width: 100%;
+  background-color: #d9d9d9;
+  border-radius: 10px;
+  border-collapse: separate;
+  border-spacing: 1%;
+  font-weight: bold;
+  font-size: 18px;
+  color: #312e2e;
+  margin-bottom: 30px;
+}
+
+.headerItem {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  text-align: center;
+  padding: 1.5% 2%;
+}
+
+.welcomeBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.welcomeText {
+  color: #75abb5;
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.logoutButton {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.logoutButton:hover {
+  background-color: #c9302c;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+
+
+.tableSection {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 1173px) {
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .tableSection {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 826px) {
+  .welcomeBar {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .headerContainer {
+    font-size: 14px;
+  }
+
+  .headerItem {
+    padding: 8px 4px;
+  }
+}
