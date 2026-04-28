@@ -181,7 +181,7 @@ tasks.register('team') {
                 }
             }
         } finally {
-            def targetBranch = (branchName == "HEAD") ? "main" : branchName
+            def targetBranch = (branchName == "HEAD" || !branchName) ? "main" : branchName
             println "Returning to original branch: ${targetBranch}"
             exec {
                 commandLine 'git', 'checkout', '--force', targetBranch, '--quiet'
