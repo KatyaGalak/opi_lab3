@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.lab.web'
-version = '1.0-SNAPSHOT'
+version = '1.0'
 
 repositories {
     mavenCentral()
@@ -66,7 +66,9 @@ tasks.register('myCompile', JavaCompile) {
 }
 
 tasks.named('jar') {
-    archiveFileName = project.findProperty('jar.name') ?: 'project.jar'
+    def baseName = project.findProperty('jar.name') ?: 'project'
+    archiveFileName = "${baseName}.jar"
+
     manifest {
         attributes(
             'Main-Class': project.findProperty('main.class') ?: 'com.lab.web.Main',
@@ -77,7 +79,8 @@ tasks.named('jar') {
 }
 
 tasks.named('war') {
-    archiveFileName = "${project.findProperty('war.name') ?: 'project'}.war"
+    archiveBaseName.set(project.findProperty('war.name') ?: 'project')
+    archiveFileName = "${archiveBaseName.get()}-${project.version}.war"
 }
 
 tasks.register('myBuild') {

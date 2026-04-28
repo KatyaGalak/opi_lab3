@@ -11,16 +11,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PointHitTest {
 
-    private User mockUser;
+    private User testUser;
 
     @BeforeEach
     void setUp() {
-        mockUser = new User();
-        mockUser.setId((long) 1);
+        testUser = new User();
+        testUser.setId((long) 1);
     }
 
     private boolean checkHitViaService(double x, double y, double r) {
-        PointData point = PointService.createPointData(x, y, r, mockUser, true);
+        PointData point = PointService.createPointData(x, y, r, testUser, true);
         return point.getHit();
     }
 
