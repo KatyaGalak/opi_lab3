@@ -1,0 +1,201 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group = 'com.lab.web'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'jakarta.platform:jakarta.jakartaee-web-api:10.0.0'
+    compileOnly 'jakarta.servlet.jsp:jakarta.servlet.jsp-api:3.1.1'
+    compileOnly 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    
+    implementation 'jakarta.persistence:jakarta.persistence-api:3.2.0'
+    implementation 'org.hibernate.orm:hibernate-core:7.0.0.Beta1'
+    
+    implementation 'org.postgresql:postgresql:42.7.3'
+    
+    compileOnly 'org.projectlombok:lombok:1.18.42'
+    annotationProcessor 'org.projectlombok:lombok:1.18.42'
+    testCompileOnly 'org.projectlombok:lombok:1.18.42'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.42'
+    
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.20.1'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.20.1'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.1'
+    
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+    
+    implementation 'de.mkammerer:argon2-jvm:2.11'
+    implementation 'at.favre.lib:bcrypt:0.10.2'
+    
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.2.3'
+    
+    implementation 'com.bucket4j:bucket4j_jdk17-core:8.15.0'
+    
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.2'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Javadoc).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.register('myCompile', JavaCompile) {
+    dependsOn 'compileJava'
+    description = 'Компиляция исходных кодов проекта'
+    group = 'lab'
+}
+
+tasks.named('jar') {
+    archiveFileName = project.findProperty('jar.name') ?: 'project.jar'
+    manifest {
+        attributes(
+            'Main-Class': project.findProperty('main.class') ?: 'com.lab.web.Main',
+            'Implementation-Version': project.version,
+            'Created-By': "Gradle ${gradle.gradleVersion}"
+        )
+    }
+}
+
+tasks.named('war') {
+    archiveFileName = "${project.findProperty('war.name') ?: 'project'}.war"
+}
+
+tasks.register('myBuild') {
+    dependsOn 'myCompile', 'jar', 'war'
+    description = 'Сборка проекта в JAR'
+    group = 'lab'
+    doLast {
+        def jarTask = tasks.named('jar').get()
+        println "Build completed: ${jarTask.archiveFileName.get()}"
+    }
+}
+
+tasks.named('clean') {
+    group = 'lab'
+    doLast {
+        println "Build directory cleaned"
+    }
+}
+
+tasks.named('test') {
+    dependsOn 'myBuild' 
+    
+    useJUnitPlatform()
+    group = 'lab'
+    
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+tasks.register('scp', Exec) {
+    dependsOn 'myBuild'
+    description = 'Отправка собранного JAR на сервер'
+    group = 'lab'
+    
+    def serverPort = project.findProperty('server.port')?.toString()
+    def serverUrl = project.findProperty('server.url')?.toString()
+    def serverDest = project.findProperty('server.destDir')?.toString()
+    
+    if (!serverUrl) {
+        project.logger.error("Property 'server.url' is missing in gradle.properties")
+        return
+    }
+    
+    commandLine 'scp', '-P', serverPort, "-r", "build/libs/*.war", "${serverUrl}:${serverDest}"
+}
+
+tasks.register('zip', Zip) {
+    dependsOn tasks.named('jar')
+
+    from layout.buildDirectory.dir('libs')
+    include '*.jar', '*.war'
+    archiveFileName = "project-${project.version}.zip"
+    destinationDirectory = layout.buildDirectory.dir('dist')
+}
+
+tasks.register('zipRevisions', Zip) {
+    group = 'lab'
+    from layout.buildDirectory.dir("git_revisions")
+    archiveFileName = "team-git-revisions.zip"
+    destinationDirectory = layout.buildDirectory.dir('dist')
+}
+
+tasks.register('team') {
+    group = 'lab'
+    description = 'Checkout 3 previous git commits, builds them and zips jars'
+    
+    dependsOn 'myBuild'
+
+    doLast {
+        def tempDir = layout.buildDirectory.dir("git_revisions").get().asFile
+        tempDir.deleteDir()
+        tempDir.mkdirs()
+
+        def currentBranch = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-parse', '--abbrev-ref', 'HEAD'
+            standardOutput = currentBranch
+        }
+        def branchName = currentBranch.toString().trim()
+
+        try {
+            (1..3).each { i ->
+                def revision = "HEAD~${i}"
+                println "--- Processing Git Revision: ${revision} ---"
+
+                exec {
+                    commandLine 'git', 'checkout', revision, '--quiet'
+                }
+
+                exec {
+                    commandLine 'cmd', '/c', 'gradlew.bat', 'jar'
+
+                }
+
+                copy {
+                    from layout.buildDirectory.dir('libs')
+                    include "*.jar"
+                    into tempDir
+                    rename { String fileName -> fileName.replace(".jar", "-rev${i}.jar") }
+                }
+            }
+        } finally {
+            println "--- Returning to original branch: ${branchName} ---"
+            exec {
+                commandLine 'git', 'checkout', branchName, '--quiet'
+            }
+        }
+    }
+    finalizedBy 'zipRevisions'
+}
+
+// tasks.register('team') {
+//     dependsOn 'myBuild', 'zip'
+//     description = 'Сборка проекта и упаковка в ZIP'
+//     group = 'lab'
+
+//     doLast {
+//         println "Team build complete: ${zip.get().archiveFile.get().asFile}"
+//     }
+// }

@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Main-Class: com.lab.web.Main
+Implementation-Version: 1.0-SNAPSHOT
+Created-By: Gradle 8.14
+
