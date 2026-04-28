@@ -125,12 +125,10 @@ tasks.register('scp', Exec) {
     commandLine 'scp', '-P', serverPort, "-r", "build/libs/*.war", "${serverUrl}:${serverDest}"
 }
 
-tasks.register('zip', Zip) {
-    dependsOn tasks.named('jar')
-
-    from layout.buildDirectory.dir('libs')
-    include '*.jar', '*.war'
-    archiveFileName = "project-${project.version}.zip"
+tasks.register('zipRevisions', Zip) {
+    group = 'lab'
+    from layout.buildDirectory.dir("git_revisions")
+    archiveFileName = "team-git-revisions.zip"
     destinationDirectory = layout.buildDirectory.dir('dist')
 }
 
@@ -144,7 +142,7 @@ tasks.register('team') {
         def tempDir = layout.buildDirectory.dir("git_revisions").get().asFile
         tempDir.deleteDir()
         tempDir.mkdirs()
-
+        
         def currentBranchOutput = new ByteArrayOutputStream()
         exec {
             commandLine 'git', 'rev-parse', '--abbrev-ref', 'HEAD'
