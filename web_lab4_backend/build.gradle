@@ -192,12 +192,3 @@ tasks.register('team') {
     finalizedBy 'zipRevisions'
 }
 
-// tasks.register('team') {
-//     dependsOn 'myBuild', 'zip'
-//     description = 'Сборка проекта и упаковка в ZIP'
-//     group = 'lab'
-
-//     doLast {
-//         println "Team build complete: ${zip.get().archiveFile.get().asFile}"
-//     }
-// }
