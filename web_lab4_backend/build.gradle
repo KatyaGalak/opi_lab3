@@ -163,7 +163,7 @@ tasks.register('team') {
                 println "Processing Git Revision: ${shortId}"
 
                 exec {
-                    commandLine 'git', 'checkout', commitHash, '--quiet'
+                    commandLine 'git', 'checkout', commitHash, '--force', '--quiet'
                 }
 
                 exec {
