@@ -1,1 +1,4 @@
 /.sixth
+.gradle/
+build/
+temp_git_revisions/

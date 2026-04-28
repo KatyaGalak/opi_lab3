@@ -139,7 +139,7 @@ tasks.register('team') {
     dependsOn 'myBuild'
 
     doLast {
-        def tempDir = layout.buildDirectory.dir("git_revisions").get().asFile
+        def tempDir = file("${projectDir}/temp_git_revisions") 
         tempDir.deleteDir()
         tempDir.mkdirs()
         
