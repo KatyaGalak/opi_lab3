@@ -10,12 +10,6 @@
         <module name="web_lab4_backend.main" />
         <module name="web_lab4_backend.test" />
       </profile>
-      <profile name="Maven default annotation processors profile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="web_lab4_backend" />
-      </profile>
     </annotationProcessing>
   </component>
 </project>
