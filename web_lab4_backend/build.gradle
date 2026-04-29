@@ -61,7 +61,7 @@ tasks.withType(Javadoc).configureEach {
 
 tasks.register('myCompile', JavaCompile) {
     dependsOn 'compileJava'
-    description = 'Компиляция исходных кодов проекта'
+    description = 'Compiles the project source code'
     group = 'lab'
 }
 
@@ -80,12 +80,12 @@ tasks.named('jar') {
 
 tasks.named('war') {
     archiveBaseName.set(project.findProperty('war.name') ?: 'project')
-    archiveFileName = "${archiveBaseName.get()}-${project.version}.war"
+    archiveFileName = "${archiveBaseName.get()}.war"
 }
 
 tasks.register('myBuild') {
     dependsOn 'myCompile', 'jar', 'war'
-    description = 'Сборка проекта в JAR'
+    description = 'The project into JAR and WAR artifacts'
     group = 'lab'
     doLast {
         def jarTask = tasks.named('jar').get()
@@ -113,7 +113,7 @@ tasks.named('test') {
 
 tasks.register('scp', Exec) {
     dependsOn 'myBuild'
-    description = 'Отправка собранного JAR на сервер'
+    description = 'Uploads the assembled WAR file to the remote server'
     group = 'lab'
     
     def serverPort = project.findProperty('server.port')?.toString()
@@ -130,6 +130,7 @@ tasks.register('scp', Exec) {
 
 tasks.register('zipRevisions', Zip) {
     group = 'lab'
+    description = 'Archives collected git revisions into a ZIP file'
     from layout.buildDirectory.dir("git_revisions")
     archiveFileName = "team-git-revisions.zip"
     destinationDirectory = layout.buildDirectory.dir('dist')
