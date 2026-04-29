@@ -168,6 +168,7 @@ tasks.register('team') {
 
                 exec {
                     commandLine 'git', 'checkout', commitHash, '--force', '--quiet'
+                    ignoreExitValue = true
                 }
 
                 exec {
@@ -189,6 +190,7 @@ tasks.register('team') {
             println "Returning to original branch: ${targetBranch}"
             exec {
                 commandLine 'git', 'checkout', '--force', targetBranch, '--quiet'
+                ignoreExitValue = true
             }
 
             delete tempDir
