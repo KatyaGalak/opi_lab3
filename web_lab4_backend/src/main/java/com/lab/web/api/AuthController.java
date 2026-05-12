@@ -1,14 +1,5 @@
 package com.lab.web.api;
 
-import com.lab.web.database.UserHibernateRepository;
-import com.lab.web.security.JwtProvider;
-import com.lab.web.security.password.PasswordEncoderBCrypt;
-import com.lab.web.api.record.auth.LoginRequest;
-import com.lab.web.api.record.auth.LoginResponse;
-import com.lab.web.api.record.auth.RegisterRequest;
-import com.lab.web.api.record.auth.RegisterResponse;
-import com.lab.web.data.User;
-
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
@@ -20,6 +11,15 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import com.lab.web.database.UserHibernateRepository;
+import com.lab.web.security.JwtProvider;
+import com.lab.web.security.password.PasswordEncoderBCrypt;
+import com.lab.web.api.record.auth.LoginRequest;
+import com.lab.web.api.record.auth.LoginResponse;
+import com.lab.web.api.record.auth.RegisterRequest;
+import com.lab.web.api.record.auth.RegisterResponse;
+import com.lab.web.data.User;
 
 @Path("/auth")
 @Consumes(MediaType.APPLICATION_JSON)

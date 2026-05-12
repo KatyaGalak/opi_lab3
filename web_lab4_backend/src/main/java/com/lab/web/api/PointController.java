@@ -1,12 +1,6 @@
 package com.lab.web.api;
 
-import com.lab.web.api.record.point.Point;
-import com.lab.web.data.PointData;
-import com.lab.web.data.User;
-import com.lab.web.database.PointHibernateRepository;
-import com.lab.web.database.UserHibernateRepository;
-import com.lab.web.security.AuthService;
-import com.lab.web.service.PointService;
+import java.util.List;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -16,7 +10,13 @@ import jakarta.ws.rs.core.Response;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 
-import java.util.List;
+import com.lab.web.api.record.point.Point;
+import com.lab.web.data.PointData;
+import com.lab.web.data.User;
+import com.lab.web.database.PointHibernateRepository;
+import com.lab.web.database.UserHibernateRepository;
+import com.lab.web.security.AuthService;
+import com.lab.web.service.PointService;
 
 @Path("/points")
 @Produces(MediaType.APPLICATION_JSON)

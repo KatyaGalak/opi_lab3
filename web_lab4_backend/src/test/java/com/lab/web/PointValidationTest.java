@@ -3,15 +3,10 @@ package com.lab.web;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-
-import java.time.LocalDateTime;
 
 import com.lab.web.data.User;
-import com.lab.web.data.PointData;
 import com.lab.web.service.PointService;
 
 public class PointValidationTest {

@@ -1,11 +1,10 @@
 package com.lab.web.service;
 
-import com.lab.web.data.PointData;
-import com.lab.web.data.User;
-
 import java.time.LocalDateTime;
 
 import com.lab.web.constants.ValidationConstants;
+import com.lab.web.data.PointData;
+import com.lab.web.data.User;
 
 public class PointService {
 

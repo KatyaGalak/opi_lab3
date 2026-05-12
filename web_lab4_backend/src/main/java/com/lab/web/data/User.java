@@ -1,8 +1,9 @@
 package com.lab.web.data;
 
-import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -51,14 +51,6 @@ java {
     }
 }
 
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-}
-
-tasks.withType(Javadoc).configureEach {
-    options.encoding = 'UTF-8'
-}
-
 tasks.register('myCompile', JavaCompile) {
     dependsOn 'compileJava'
     description = 'Compiles the project source code'
@@ -196,6 +188,7 @@ tasks.register('team') {
             delete tempDir
         }
     }
+    
     finalizedBy 'zipRevisions'
 }
 

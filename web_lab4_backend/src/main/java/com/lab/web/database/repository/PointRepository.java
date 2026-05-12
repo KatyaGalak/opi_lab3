@@ -1,8 +1,8 @@
 package com.lab.web.database.repository;
 
-import com.lab.web.data.PointData;
-
 import java.util.List;
+
+import com.lab.web.data.PointData;
 
 public interface PointRepository {
     List<PointData> getAllPoints(Long userId);
